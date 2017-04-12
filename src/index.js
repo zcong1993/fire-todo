@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueFire from 'vuefire'
-// import firebase from 'firebase'
-import App from './Auth'
+import App from './App'
 
 Vue.use(VueFire)
 

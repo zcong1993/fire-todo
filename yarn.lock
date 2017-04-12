@@ -85,6 +85,10 @@ lodash.once@^4.0.0:
   version "4.1.1"
   resolved "http://registry.npm.taobao.org/lodash.once/download/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
 
+material-design-icons-iconfont@^3.0.3:
+  version "3.0.3"
+  resolved "http://registry.npm.taobao.org/material-design-icons-iconfont/download/material-design-icons-iconfont-3.0.3.tgz#154a1084047d4e27237fa7f5a37e1075ceea6df2"
+
 moment@2.x.x:
   version "2.18.1"
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
@@ -92,6 +96,10 @@ moment@2.x.x:
 ms@^0.7.1:
   version "0.7.3"
   resolved "http://registry.npm.taobao.org/ms/download/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
+
+muse-ui@^2.0.2:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/muse-ui/download/muse-ui-2.0.2.tgz#4b74b5c46ced00b34b912dd3fa44280052dd690c"
 
 promise-polyfill@^6.0.2:
   version "6.0.2"

@@ -1,0 +1,20 @@
+{
+  "name": "fire-todo",
+  "version": "0.0.1",
+  "description": "my awesome project",
+  "repository": {
+    "url": "zcong1993/fire-todo",
+    "type": "git"
+  },
+  "scripts": {
+    "dev": "vbuild -dc --eslint --port 3000",
+    "build": "vbuild -c"
+  },
+  "author": "zcong1993 <1005997919@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^3.7.6",
+    "vue": "^2.2.2",
+    "vuefire": "^1.4.2"
+  }
+}

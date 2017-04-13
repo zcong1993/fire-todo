@@ -1,6 +1,8 @@
 export const firebaseConfig = {
-  apiKey: 'AIzaSyDF3ier7mC--tNKDCfgDqHmF7u7t5JGNds',
-  authDomain: 'first-2fc61.firebaseapp.com',
-  databaseURL: 'https://first-2fc61.firebaseio.com',
-  storageBucket: 'first-2fc61.appspot.com'
+  apiKey: 'AIzaSyDXqdddlbuqtNjPFiwYi5qgtAnhCD9KDpQ',
+  authDomain: 'fire-todo-87370.firebaseapp.com',
+  databaseURL: 'https://fire-todo-87370.firebaseio.com',
+  storageBucket: 'fire-todo-87370.appspot.com'
 }
+
+export const baseRef = 'users'

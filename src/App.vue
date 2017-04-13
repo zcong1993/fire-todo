@@ -2,7 +2,7 @@
   <div class="container">
       <mu-appbar title="vue todos">
       <template v-if="userinfo">
-        <mu-icon-button icon="add_box" slot="left"/>
+        <mu-icon-button icon="add_box" slot="left" @click="showAddNew"/>
         <mu-icon-button slot="right">
           <mu-avatar :src="userinfo.photoURL" :size="30" :iconSize="20"/>
         </mu-icon-button>
@@ -24,7 +24,8 @@
       <mu-flexbox-item :grow="0" class="flex-demo">
         <mu-paper :zDepth="2">
         <mu-card>
-          <mu-card-title title="Content Title" subTitle="Content Title"/>
+          <mu-card-title title="Content Title"
+          subTitle="2017-04-13 14:49"/>
           <mu-card-text class="card-content">
             散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
             调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
@@ -41,7 +42,8 @@
       <mu-flexbox-item :grow="0" class="flex-demo">
         <mu-paper :zDepth="2">
         <mu-card>
-          <mu-card-title title="Content Title" subTitle="Content Title"/>
+          <mu-card-title title="Content Title"
+          subTitle="2017-04-13 15:49"/>
           <mu-card-text class="card-content">
             散落在指尖的阳光，我试着轻轻抓住光影的踪迹，
           </mu-card-text>
@@ -54,17 +56,26 @@
       </mu-flexbox-item>
     </mu-flexbox>
     <Index :handleLogin="handleLogin" v-else/>
-    <!--cards ends-->
-    <!--<pre>
-      <h4>{{ userinfo && userinfo }}</h4>
-    </pre>-->
+    <!--cards end-->
+    <!--dialog-->
+    <mu-dialog :open="showDialog" title="Add new todo">
+      <mu-text-field label="标题" labelFloat fullWidth v-model.trim="title"/><br/>
+      <mu-text-field hintText="内容" multiLine :rows="2" :rowsMax="6" fullWidth v-model.trim="content"/><br/>
+      <mu-flat-button label="确定" slot="actions" primary @click="addNew"/>
+    </mu-dialog>
+    <!--dialog end-->
+    <!--toast-->
     <mu-toast v-if="toast" :message="tips" @close="hideToast"/>
+    <!--toast end-->
+    <pre>
+      <p v-for="t in todos">{{ t }}</p>
+    </pre>
   </div>
 </template>
 
 <script>
   import Index from './components/Index.vue'
-  import firebase, { firebaseAuth } from './firebase'
+  import firebase, { firebaseAuth, firebaseDb, baseRef } from './firebase'
   const provider = new firebase.auth.GoogleAuthProvider()
 
   export default {
@@ -75,7 +86,12 @@
       return {
         userinfo: null,
         toast: false,
-        tips: ''
+        tips: '',
+        showDialog: false,
+        title: '',
+        content: '',
+        todosRef: '',
+        todos: []
       }
     },
     methods: {
@@ -104,6 +120,22 @@
         this.toast = false
         this.tips = ''
         if (this.toastTimer) clearTimeout(this.toastTimer)
+      },
+      addNew() {
+        if (this.title && this.content) {
+          if (this.todosRef) {
+            const todo = {
+              title: this.title,
+              content: this.content
+            }
+            this.todosRef.push(todo)
+          }
+          this.title = this.content = ''
+          this.showDialog = false
+        }
+      },
+      showAddNew() {
+        this.showDialog = true
       }
     },
     mounted() {
@@ -120,6 +152,8 @@
           this.islogin = true
           const detail = firebaseAuth.currentUser
           this.userinfo = detail.providerData[0]
+          this.todosRef = firebaseDb.ref(baseRef + '/' + user.uid)
+          this.$bindAsArray('todos', this.todosRef)
         }
       })
     }

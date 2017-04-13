@@ -21,10 +21,10 @@
     </mu-appbar>
     <!--cards-->
     <mu-flexbox wrap="wrap" justify="center" class="content" v-if="userinfo">
-      <mu-flexbox-item :grow="0" class="flex-demo">
+     <mu-flexbox-item :grow="0" class="flex-demo" v-if="!todos.length">
         <mu-paper :zDepth="2">
         <mu-card>
-          <mu-card-title title="Content Title"
+          <mu-card-title title="样例"
           subTitle="2017-04-13 14:49"/>
           <mu-card-text class="card-content">
             散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
@@ -33,23 +33,24 @@
             找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！
           </mu-card-text>
           <mu-card-actions>
-            <mu-flat-button label="Action 1"/>
-            <mu-flat-button label="Action 2"/>
+            <mu-flat-button label="EDIT" icon="edit"/>
+            <mu-flat-button label="DELETE" icon="delete" secondary/>
           </mu-card-actions>
         </mu-card>
         </mu-paper>
       </mu-flexbox-item>
-      <mu-flexbox-item :grow="0" class="flex-demo">
+      <mu-flexbox-item :grow="0" class="flex-demo" v-for="(t, i) in todos" :key="'todo-' + i">
         <mu-paper :zDepth="2">
         <mu-card>
-          <mu-card-title title="Content Title"
+          <mu-card-title :title="t.title"
           subTitle="2017-04-13 15:49"/>
           <mu-card-text class="card-content">
-            散落在指尖的阳光，我试着轻轻抓住光影的踪迹，
+            {{ t.content }}
           </mu-card-text>
           <mu-card-actions>
-            <mu-flat-button label="Action 1"/>
-            <mu-flat-button label="Action 2"/>
+            <mu-flat-button label="EDIT" icon="edit" />
+            <mu-flat-button label="DELETE" @click="showRemoveSubmit(t)"
+            icon="delete" secondary />
           </mu-card-actions>
         </mu-card>
         </mu-paper>
@@ -64,12 +65,19 @@
       <mu-flat-button label="确定" slot="actions" primary @click="addNew"/>
     </mu-dialog>
     <!--dialog end-->
+    <!--remove submit-->
+    <mu-dialog :open="showSubmit" title="确认" @close="closeSubmit">
+      确定要删除吗？无法恢复哦！
+      <mu-flat-button slot="actions" @click="closeSubmit" primary label="取消"/>
+      <mu-flat-button slot="actions" primary @click="handleRemove" label="确定"/>
+    </mu-dialog>
+    <!--remove submit end-->
     <!--toast-->
     <mu-toast v-if="toast" :message="tips" @close="hideToast"/>
     <!--toast end-->
-    <pre>
+    <!--<pre>
       <p v-for="t in todos">{{ t }}</p>
-    </pre>
+    </pre>-->
   </div>
 </template>
 
@@ -88,10 +96,12 @@
         toast: false,
         tips: '',
         showDialog: false,
+        showSubmit: false,
         title: '',
         content: '',
         todosRef: '',
-        todos: []
+        todos: [],
+        removeTodo: ''
       }
     },
     methods: {
@@ -134,8 +144,22 @@
           this.showDialog = false
         }
       },
+      handleRemove() {
+        if (this.todosRef) {
+          this.todosRef.child(this.removeTodo['.key']).remove()
+          this.closeSubmit()
+        }
+      },
       showAddNew() {
         this.showDialog = true
+      },
+      closeSubmit() {
+        this.showSubmit = false
+        this.removeTodo = ''
+      },
+      showRemoveSubmit(todo) {
+        this.removeTodo = todo
+        this.showSubmit = true
       }
     },
     mounted() {

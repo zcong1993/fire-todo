@@ -109,6 +109,10 @@ safe-buffer@^5.0.1:
   version "5.0.1"
   resolved "http://registry.npm.taobao.org/safe-buffer/download/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
 
+time-stamp@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/time-stamp/download/time-stamp-1.0.1.tgz#9f4bd23559c9365966f3302dbba2b07c6b99b151"
+
 topo@1.x.x:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/topo/download/topo-1.1.0.tgz#e9d751615d1bb87dc865db182fa1ca0a5ef536d5"

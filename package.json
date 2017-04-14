@@ -16,6 +16,7 @@
     "firebase": "^3.7.6",
     "material-design-icons-iconfont": "^3.0.3",
     "muse-ui": "^2.0.2",
+    "time-stamp": "^1.0.1",
     "vue": "^2.2.2",
     "vuefire": "^1.4.2"
   }

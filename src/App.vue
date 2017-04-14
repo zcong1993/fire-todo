@@ -43,12 +43,12 @@
         <mu-paper :zDepth="2">
         <mu-card>
           <mu-card-title :title="t.title"
-          subTitle="2017-04-13 15:49"/>
+          :subTitle="t.createdAt"/>
           <mu-card-text class="card-content">
             {{ t.content }}
           </mu-card-text>
           <mu-card-actions>
-            <mu-flat-button label="EDIT" icon="edit" />
+            <mu-flat-button label="EDIT" icon="edit" @click="handleEditing(t)"/>
             <mu-flat-button label="DELETE" @click="showRemoveSubmit(t)"
             icon="delete" secondary />
           </mu-card-actions>
@@ -59,16 +59,17 @@
     <Index :handleLogin="handleLogin" v-else/>
     <!--cards end-->
     <!--dialog-->
-    <mu-dialog :open="showDialog" title="Add new todo">
+    <mu-dialog :open="showDialog" @close="closeAddNew" :title="isEdit ? 'Edit one todo' : 'Add new todo'">
       <mu-text-field label="标题" labelFloat fullWidth v-model.trim="title"/><br/>
       <mu-text-field hintText="内容" multiLine :rows="2" :rowsMax="6" fullWidth v-model.trim="content"/><br/>
+      <mu-flat-button label="取消" slot="actions" secondary @click="closeAddNew"/>
       <mu-flat-button label="确定" slot="actions" primary @click="addNew"/>
     </mu-dialog>
     <!--dialog end-->
     <!--remove submit-->
     <mu-dialog :open="showSubmit" title="确认" @close="closeSubmit">
       确定要删除吗？无法恢复哦！
-      <mu-flat-button slot="actions" @click="closeSubmit" primary label="取消"/>
+      <mu-flat-button slot="actions" @click="closeSubmit" secondary label="取消"/>
       <mu-flat-button slot="actions" primary @click="handleRemove" label="确定"/>
     </mu-dialog>
     <!--remove submit end-->
@@ -82,6 +83,7 @@
 </template>
 
 <script>
+  import timestamp from 'time-stamp'
   import Index from './components/Index.vue'
   import firebase, { firebaseAuth, firebaseDb, baseRef } from './firebase'
   const provider = new firebase.auth.GoogleAuthProvider()
@@ -101,7 +103,9 @@
         content: '',
         todosRef: '',
         todos: [],
-        removeTodo: ''
+        removeTodo: '',
+        isEdit: false,
+        editing: ''
       }
     },
     methods: {
@@ -138,11 +142,20 @@
               title: this.title,
               content: this.content
             }
-            this.todosRef.push(todo)
+            if (this.isEdit) {
+              if (this.editing) {
+                this.todosRef.child(this.editing['.key']).set(Object.assign({}, todo, { createdAt: this.editing.createdAt }))
+              }
+            } else {
+              this.todosRef.push(Object.assign({}, todo, { createdAt: timestamp('YYYY-MM-DD HH:mm') }))
+            }
           }
-          this.title = this.content = ''
-          this.showDialog = false
+          this.closeAddNew()
         }
+      },
+      closeAddNew() {
+        this.editing = this.title = this.content = ''
+        this.isEdit = this.showDialog = false
       },
       handleRemove() {
         if (this.todosRef) {
@@ -160,6 +173,13 @@
       showRemoveSubmit(todo) {
         this.removeTodo = todo
         this.showSubmit = true
+      },
+      handleEditing(todo) {
+        this.isEdit = true
+        this.editing = todo
+        this.title = todo.title
+        this.content = todo.content
+        this.showDialog = true
       }
     },
     mounted() {

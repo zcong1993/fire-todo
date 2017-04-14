@@ -111,7 +111,22 @@
     methods: {
       handleLogin() {
         if (!this.userinfo) {
-          firebaseAuth.signInWithRedirect(provider)
+          // firebaseAuth.signInWithRedirect(provider)
+          firebaseAuth.signInWithPopup(provider)
+            .then(res => {
+              const user = res.user
+              if (user) {
+                this.islogin = true
+                const detail = firebaseAuth.currentUser
+                this.userinfo = detail.providerData[0]
+                this.todosRef = firebaseDb.ref(baseRef + '/' + user.uid)
+                this.$bindAsArray('todos', this.todosRef)
+              }
+            })
+            .catch(() => {
+              this.tips = 'Oops. maybe error occurred!'
+              this.showToast()
+            })
         }
       },
       handleLogout() {
@@ -197,15 +212,15 @@
           this.tips = 'Oops. maybe error occurred!'
           this.showToast()
         })
-      firebaseAuth.onAuthStateChanged(user => {
-        if (user) {
-          this.islogin = true
-          const detail = firebaseAuth.currentUser
-          this.userinfo = detail.providerData[0]
-          this.todosRef = firebaseDb.ref(baseRef + '/' + user.uid)
-          this.$bindAsArray('todos', this.todosRef)
-        }
-      })
+      // firebaseAuth.onAuthStateChanged(user => {
+      //   if (user) {
+      //     this.islogin = true
+      //     const detail = firebaseAuth.currentUser
+      //     this.userinfo = detail.providerData[0]
+      //     this.todosRef = firebaseDb.ref(baseRef + '/' + user.uid)
+      //     this.$bindAsArray('todos', this.todosRef)
+      //   }
+      // })
     }
   }
 </script>

@@ -121,7 +121,10 @@
             this.tips = 'logout success!'
             this.showToast()
           })
-          .catch(e => console.log(e))
+          .catch(() => {
+            this.tips = 'Oops. maybe error occurred!'
+            this.showToast()
+          })
       },
       showToast() {
         this.toast = true
@@ -190,7 +193,10 @@
             this.showToast()
           }
         })
-        .catch(e => console.log(e))
+        .catch(() => {
+          this.tips = 'Oops. maybe error occurred!'
+          this.showToast()
+        })
       firebaseAuth.onAuthStateChanged(user => {
         if (user) {
           this.islogin = true

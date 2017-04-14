@@ -1,7 +1,7 @@
 {
   "name": "fire-todo",
   "version": "0.0.1",
-  "description": "my awesome project",
+  "description": "A todo card with vue, firebase, muse-ui",
   "repository": {
     "url": "zcong1993/fire-todo",
     "type": "git"

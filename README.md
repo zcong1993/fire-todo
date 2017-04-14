@@ -4,7 +4,11 @@
 
 ## Use
 
-see [http://vue-todos.surge.sh/](http://vue-todos.surge.sh/).
+see [http://vue-todos.surge.sh/](http://vue-todos.surge.sh/)
+
+## TODO
+
+- [ ] tweak style for mobile
 
 ## License
 

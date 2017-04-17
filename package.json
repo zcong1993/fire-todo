@@ -7,7 +7,7 @@
     "type": "git"
   },
   "scripts": {
-    "dev": "vbuild -dc --eslint --port 3000",
+    "dev": "vbuild -dc --port 3000",
     "build": "vbuild -c",
     "serve": "npm run build && surge -p dist"
   },

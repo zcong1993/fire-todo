@@ -102,7 +102,6 @@
         title: '',
         content: '',
         todosRef: '',
-        todos: [],
         removeTodo: '',
         isEdit: false,
         editing: ''

@@ -7,8 +7,8 @@
     "type": "git"
   },
   "scripts": {
-    "dev": "vbuild -dc --port 3000",
-    "build": "vbuild -c",
+    "dev": "poi --port 3000",
+    "build": "poi build",
     "serve": "npm run build && surge -p dist"
   },
   "author": "zcong1993 <1005997919@qq.com>",
